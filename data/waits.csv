@@ -86,3 +86,5 @@ date,time,place_type,wait_for,duration_minutes,mood_start,mood_end,outcome,activ
 2026-11-10,10:15,school,teacher,5,4,4,succeeded,reading
 2026-11-10,13:50,lecture_hall,lecture_start,6,3,3,succeeded,standing
 2026-11-11,11:30,library,tech_booth,9,3,2,succeeded,checking_phone
+2026-11-11,16:40,station,train,17,2,1,missed,checking_phone
+2026-11-12,08:11,bus_stop,bus,7,3,3,succeeded,listening_music
