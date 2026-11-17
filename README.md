@@ -71,3 +71,9 @@ Methods that return values include `dateToKey()`, `timeToMinutes()`, `petalsFrom
 ### Week 5:
 - Updated flower method and worked on the main pde
 - Current Data: 72/100
+
+### Week 6:
+- Current Data: 72/100
+
+### Week 7:
+- Current Data: 90/100
