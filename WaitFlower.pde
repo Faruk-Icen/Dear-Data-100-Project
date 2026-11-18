@@ -36,7 +36,7 @@ class WaitFlower {
   void display() {
     pushMatrix();
     translate(x, y);
-    scale(FLOWER_SCALE);
+    scale(flowerScale);
 
     drawStem();
     drawPetals();

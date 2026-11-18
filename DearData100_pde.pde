@@ -1,9 +1,9 @@
 ArrayList<WaitFlower> flowers = new ArrayList<WaitFlower>();
 ArrayList<String> activities = new ArrayList<String>();
 
-final int GARDEN_COLUMNS = 2;
-final int GAP = 12;
-final float FLOWER_SCALE = 0.5f;
+final int gardenColumns = 2;
+final int gardenGap = 12;
+final float flowerScale = 0.5f;
 
 int minDateKey = Integer.MAX_VALUE;
 int maxDateKey = Integer.MIN_VALUE;
@@ -29,9 +29,9 @@ void setup() {
     maxDateKey++;
   }
 
-  int gardenRows = max(1, (activities.size() + GARDEN_COLUMNS - 1) / GARDEN_COLUMNS);
-  gardenWidth = (width - GAP * (GARDEN_COLUMNS + 1)) / (float) GARDEN_COLUMNS;
-  gardenHeight = (height - GAP * (gardenRows + 1)) / (float) gardenRows;
+  int gardenRows = max(1, (activities.size() + gardenColumns - 1) / gardenColumns);
+  gardenWidth = (width - gardenGap * (gardenColumns + 1)) / (float) gardenColumns;
+  gardenHeight = (height - gardenGap * (gardenRows + 1)) / (float) gardenRows;
 
   for (TableRow row : waits.rows()) {
     flowers.add(new WaitFlower(row));
@@ -42,8 +42,8 @@ void draw() {
   background(240);
   for (int i = 0; i < activities.size(); i++) {
     String activity = activities.get(i);
-    float left = GAP + (i % GARDEN_COLUMNS) * (gardenWidth + GAP);
-    float top = GAP + (i / GARDEN_COLUMNS) * (gardenHeight + GAP);
+    float left = gardenGap + (i % gardenColumns) * (gardenWidth + gardenGap);
+    float top = gardenGap + (i / gardenColumns) * (gardenHeight + gardenGap);
 
     pushMatrix();
     translate(left, top);
