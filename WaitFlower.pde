@@ -46,7 +46,7 @@ class WaitFlower {
   }
 
   void drawStem() {
-    stroke(activityColour());
+    stroke(activityColour(activity));
     strokeWeight(3);
     line(0, flowerRadius, 0, stemLength);
   }
@@ -107,24 +107,6 @@ class WaitFlower {
       return color(245, 190, 80); //yellow
     } else {
       return color(130, 195, 140); //green
-    }
-  }
-
-  color activityColour() {
-    if (activity.equals("listening_music")) {
-      return color(80, 150, 210); //blue
-    } else if (activity.equals("reading")) {
-      return color(70, 165, 135); //teal
-    } else if (activity.equals("talking")) {
-      return color(180, 110, 190); //purple
-    } else if (activity.equals("chatting")) {
-      return color(194, 71, 107); //pink
-    } else if (activity.equals("watching_tv")) {
-      return color(119, 89, 65); //brown
-    } else if (activity.equals("checking_phone") || activity.equals("scrolling")) {
-      return color(235, 165, 75); //orange
-    } else {
-      return color(96, 175, 90); //green
     }
   }
 
