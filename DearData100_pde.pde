@@ -57,14 +57,6 @@ void drawGarden(String activity) {
   fill(250);
   rect(0, 0, gardenWidth, gardenHeight, 8);
 
-  stroke(activityColour(activity));
-  strokeWeight(4);
-  line(15, 12, 15, 24);
-  fill(35);
-  textSize(15);
-  String label = activity.replace('_', ' ');
-  text(label.substring(0, 1).toUpperCase() + label.substring(1), 25, 23);
-
   stroke(205, 217, 205);
   strokeWeight(1);
   for (int hour = 0; hour <= 24; hour += 4) {
