@@ -1,67 +1,104 @@
-Table waits;
 ArrayList<WaitFlower> flowers = new ArrayList<WaitFlower>();
+ArrayList<String> activities = new ArrayList<String>();
 
+final int gardenColumns = 2;
+final int gardenGap = 12;
+final float flowerScale = 0.5f;
 
-int minDateKey = 99999999;
-int maxDateKey = 0;
+int minDateKey = Integer.MAX_VALUE;
+int maxDateKey = Integer.MIN_VALUE;
+float gardenWidth;
+float gardenHeight;
 
 void setup() {
   size(1100, 750);
   smooth();
 
-  waits = loadTable("waits.csv", "header");
-  println(waits.getRowCount());
-
+  Table waits = loadTable("waits.csv", "header");
   for (TableRow row : waits.rows()) {
     int dateKey = dateToKey(row.getString("date"));
     minDateKey = min(minDateKey, dateKey);
     maxDateKey = max(maxDateKey, dateKey);
+    String activity = row.getString("activity");
+    if (!activities.contains(activity)) {
+      activities.add(activity);
+    }
   }
 
   if (minDateKey == maxDateKey) {
-    maxDateKey = minDateKey + 1;
+    maxDateKey++;
   }
 
+  int gardenRows = max(1, (activities.size() + gardenColumns - 1) / gardenColumns);
+  gardenWidth = (width - gardenGap * (gardenColumns + 1)) / (float) gardenColumns;
+  gardenHeight = (height - gardenGap * (gardenRows + 1)) / (float) gardenRows;
+
   for (TableRow row : waits.rows()) {
-    flowers.add(new WaitFlower(
-      row,
-      minDateKey,
-      maxDateKey
-    ));
+    flowers.add(new WaitFlower(row));
   }
 }
 
 void draw() {
-  drawGardenBackground();
+  background(240);
+  for (int i = 0; i < activities.size(); i++) {
+    String activity = activities.get(i);
+    float left = gardenGap + (i % gardenColumns) * (gardenWidth + gardenGap);
+    float top = gardenGap + (i / gardenColumns) * (gardenHeight + gardenGap);
 
-  for (WaitFlower flower : flowers) {
-    flower.display();
+    pushMatrix();
+    translate(left, top);
+    drawGarden(activity);
+    popMatrix();
   }
-
 }
 
-void drawGardenBackground() {
-  background(240, 240, 240);
-
+void drawGarden(String activity) {
   noStroke();
+  fill(250);
+  rect(0, 0, gardenWidth, gardenHeight, 8);
 
-  stroke(130, 160, 130);
+  stroke(205, 217, 205);
   strokeWeight(1);
   for (int hour = 0; hour <= 24; hour += 4) {
-    float y = map(hour * 60, 0, 24 * 60 - 1, 115, height - 105);
-    line(75, y, width - 75, y);
+    float y = gardenTimeY(min(hour * 60, 1439));
+    line(18, y, gardenWidth - 18, y);
+  }
+
+  for (WaitFlower flower : flowers) {
+    if (flower.activity.equals(activity)) {
+      flower.display();
+    }
   }
 }
 
+float gardenTimeY(int minutes) {
+  return map(minutes, 0, 1439, 44, gardenHeight - 30);
+}
 
 int dateToKey(String date) {
   String[] parts = split(date, "-");
-  println (int(parts[0]) * 31 * 12 + int(parts[1]) * 31 + int(parts[2]));
   return int(parts[0]) * 31 * 12 + int(parts[1]) * 31 + int(parts[2]);
 }
 
 int timeToMinutes(String time) {
   String[] parts = split(time, ":");
-   println (int(parts[0]) * 60 + int(parts[1]));
   return int(parts[0]) * 60 + int(parts[1]);
+}
+
+color activityColour(String activity) {
+  if (activity.equals("listening_music")) {
+    return color(80, 150, 210); //blue
+  } else if (activity.equals("reading")) {
+    return color(70, 165, 135); //teal
+  } else if (activity.equals("talking")) {
+    return color(180, 110, 190); //purple
+  } else if (activity.equals("chatting")) {
+    return color(194, 71, 107); //pink
+  } else if (activity.equals("watching_tv")) {
+    return color(119, 89, 65); //brown
+  } else if (activity.equals("checking_phone") || activity.equals("scrolling")) {
+    return color(235, 165, 75); //orange
+  } else {
+    return color(96, 175, 90); //green
+  }
 }
