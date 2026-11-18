@@ -36,7 +36,7 @@ For my project I have decided to create a "Mood Garden" which will allow me to e
 
 The current Processing sketch is in `DearData100_pde.pde` at the repository root. It loads the waiting dataset from `data/waits.csv`.
 
-Each row in the CSV creates a `WaitFlower` object:
+The sketch displays one garden per activity in a two-column grid. Each row in the CSV creates a `WaitFlower` in its activity's garden:
 
 - The date and time control its position in the garden.
 - The petal colour represents the place type.
@@ -44,7 +44,7 @@ Each row in the CSV creates a `WaitFlower` object:
 - The stem colour represents the activity during the wait.
 - The centre colour and expression represent the outcome.
 
-Methods that return values include `dateToKey()`, `timeToMinutes()`, `petalsFromDuration()`, `isHovered()`, and the colour methods in the `WaitFlower` class.
+Methods that return values include `dateToKey()`, `timeToMinutes()`, `petalsFromDuration()`, and the colour methods in the `WaitFlower` class.
 
 ## Log
 ### Week 1:

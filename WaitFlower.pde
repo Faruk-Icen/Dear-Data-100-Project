@@ -15,7 +15,7 @@ class WaitFlower {
   float flowerRadius = 13;
   float stemLength = 48;
 
-  WaitFlower(TableRow row, int minDateKey, int maxDateKey) {
+  WaitFlower(TableRow row) {
     date = row.getString("date");
     time = row.getString("time");
     placeType = row.getString("place_type");
@@ -27,15 +27,16 @@ class WaitFlower {
     activity = row.getString("activity");
 
     // Date plants a flower along the X-axis
-    x = map(dateToKey(date), minDateKey, maxDateKey, 90, width - 90);
+    x = map(dateToKey(date), minDateKey, maxDateKey, 18, gardenWidth - 18);
 
     // Time plants a flower along the Y-axis
-    y = map(timeToMinutes(time), 0, 1439, 115, height - 110);
+    y = gardenTimeY(timeToMinutes(time));
   }
 
   void display() {
     pushMatrix();
     translate(x, y);
+    scale(FLOWER_SCALE);
 
     drawStem();
     drawPetals();
@@ -45,7 +46,7 @@ class WaitFlower {
   }
 
   void drawStem() {
-    stroke(96, 175, 90); 
+    stroke(activityColour());
     strokeWeight(3);
     line(0, flowerRadius, 0, stemLength);
   }
@@ -95,10 +96,6 @@ class WaitFlower {
     return max(3, durationMinutes);
   }
 
-  boolean isHovered() {
-    return dist(mouseX, mouseY, x, y) < flowerRadius + 14;
-  }
-
   color placeColour() {
     if (placeType.equals("station") || placeType.equals("bus_stop")) {
       return color(85, 150, 240); //blue
@@ -118,8 +115,12 @@ class WaitFlower {
       return color(80, 150, 210); //blue
     } else if (activity.equals("reading")) {
       return color(70, 165, 135); //teal
-    } else if (activity.equals("talking") || activity.equals("chatting")) {
+    } else if (activity.equals("talking")) {
       return color(180, 110, 190); //purple
+    } else if (activity.equals("chatting")) {
+      return color(194, 71, 107); //pink
+    } else if (activity.equals("watching_tv")) {
+      return color(119, 89, 65); //brown
     } else if (activity.equals("checking_phone") || activity.equals("scrolling")) {
       return color(235, 165, 75); //orange
     } else {
