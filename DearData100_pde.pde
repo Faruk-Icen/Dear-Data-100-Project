@@ -9,6 +9,8 @@ int minDateKey = Integer.MAX_VALUE;
 int maxDateKey = Integer.MIN_VALUE;
 float gardenWidth;
 float gardenHeight;
+float scrollY = 0;
+float contentHeight;
 
 void setup() {
   size(1100, 750);
@@ -31,9 +33,10 @@ void setup() {
 
   int gardenRows = max(1, (activities.size() + gardenColumns - 1) / gardenColumns);
   float availableWidth = (width - gardenGap * (gardenColumns + 1)) / (float) gardenColumns;
-  float availableHeight = (height - gardenGap * (gardenRows + 1)) / (float) gardenRows;
-  gardenWidth = min(availableWidth, availableHeight);
+
+  gardenWidth = availableWidth;
   gardenHeight = gardenWidth;
+  contentHeight = gardenRows * (gardenHeight + gardenGap) + gardenGap;
 
   for (TableRow row : waits.rows()) {
     flowers.add(new WaitFlower(row));
@@ -42,6 +45,8 @@ void setup() {
 
 void draw() {
   background(240);
+  pushMatrix();
+  translate(0, -scrollY);
   for (int i = 0; i < activities.size(); i++) {
     String activity = activities.get(i);
     float left = (width - gardenColumns * gardenWidth - (gardenColumns - 1) * gardenGap) / 2 + (i % gardenColumns) * (gardenWidth + gardenGap);
@@ -52,6 +57,11 @@ void draw() {
     drawGarden(activity);
     popMatrix();
   }
+  popMatrix();
+}
+
+void mouseWheel(processing.event.MouseEvent event) {
+  scrollY = constrain(scrollY + event.getCount() * 40, 0, max(0, contentHeight - height));
 }
 
 void drawGarden(String activity) {
