@@ -30,8 +30,10 @@ void setup() {
   }
 
   int gardenRows = max(1, (activities.size() + gardenColumns - 1) / gardenColumns);
-  gardenWidth = (width - gardenGap * (gardenColumns + 1)) / (float) gardenColumns;
-  gardenHeight = (height - gardenGap * (gardenRows + 1)) / (float) gardenRows;
+  float availableWidth = (width - gardenGap * (gardenColumns + 1)) / (float) gardenColumns;
+  float availableHeight = (height - gardenGap * (gardenRows + 1)) / (float) gardenRows;
+  gardenWidth = min(availableWidth, availableHeight);
+  gardenHeight = gardenWidth;
 
   for (TableRow row : waits.rows()) {
     flowers.add(new WaitFlower(row));
@@ -42,7 +44,7 @@ void draw() {
   background(240);
   for (int i = 0; i < activities.size(); i++) {
     String activity = activities.get(i);
-    float left = gardenGap + (i % gardenColumns) * (gardenWidth + gardenGap);
+    float left = (width - gardenColumns * gardenWidth - (gardenColumns - 1) * gardenGap) / 2 + (i % gardenColumns) * (gardenWidth + gardenGap);
     float top = gardenGap + (i / gardenColumns) * (gardenHeight + gardenGap);
 
     pushMatrix();
