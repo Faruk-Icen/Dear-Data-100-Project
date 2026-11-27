@@ -1,7 +1,7 @@
 ArrayList<WaitFlower> flowers = new ArrayList<WaitFlower>();
 ArrayList<String> activities = new ArrayList<String>();
 
-final int gardenColumns = 2;
+final int gardenColumns = 3;
 final int gardenGap = 12;
 final float flowerScale = 0.5f;
 
@@ -34,7 +34,7 @@ void setup() {
   int gardenRows = max(1, (activities.size() + gardenColumns - 1) / gardenColumns);
   float availableWidth = (width - gardenGap * (gardenColumns + 1)) / (float) gardenColumns;
 
-  gardenWidth = availableWidth;
+  gardenWidth = min(266, availableWidth);
   gardenHeight = gardenWidth;
   contentHeight = gardenRows * (gardenHeight + gardenGap) + gardenGap;
 
