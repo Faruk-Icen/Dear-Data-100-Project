@@ -39,6 +39,7 @@ class WaitFlower {
     scale(flowerScale);
 
     drawStem();
+    drawLeaves();
     drawPetals();
     drawOutcomeFace();
 
@@ -51,6 +52,22 @@ class WaitFlower {
     line(0, flowerRadius, 0, stemLength);
   }
 
+  void drawLeaves() {
+    int leafCount = constrain(moodStart, 0, 5);
+    noStroke();
+    fill(96, 175, 90);
+
+    for (int i = 0; i < leafCount; i++) {
+      float leafY = map(i, 0, 4, flowerRadius + 9, stemLength - 3);
+      float side = (i % 2 == 0) ? -1 : 1;
+
+      pushMatrix();
+      translate(0, leafY);
+      rotate(side * PI / 6);
+      ellipse(side * 7, 0, 14, 6);
+      popMatrix();
+    }
+  }
   void drawPetals() {
     noStroke();
     fill(placeColour());
